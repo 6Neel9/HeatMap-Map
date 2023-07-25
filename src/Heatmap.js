@@ -325,3 +325,7 @@ export default class Heatmap extends L.Layer {
     }
 }
 //# sourceMappingURL=Heatmap.js.map
+
+
+
+

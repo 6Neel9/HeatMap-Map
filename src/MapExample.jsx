@@ -1,7 +1,7 @@
-import  { useEffect, useState } from 'react';
+import  {  useState } from 'react';
 import { MapContainer as Map, TileLayer } from 'react-leaflet';
 import HeatmapLayer from './HeatmapLayer';
-import { map } from 'leaflet';
+// import { map } from 'leaflet';
 
 const addressPoints = [
     [40.7128, -74.0060, 0.6], // New York City, NY, USA
@@ -21,33 +21,24 @@ const addressPoints = [
   ];
   
 
-const MapExample = () => {
-  const [mapCenter, setMapCenter] = useState([0, 0]);
-  const initialMapCenter = [40.7128, -74.0060];
-  useEffect(() => {
-    // Generate random latitude and longitude
-    const randomLatitude = (Math.random() * 180) - 90;
-    const randomLongitude = (Math.random() * 360) - 180;
-  
-    // Update the map center with the random latitude and longitude
-    setMapCenter([randomLatitude, randomLongitude]);
-  }, []);
 
-  console.log(mapCenter)
+const MapExample = () => {
+  const initialMapCenter = [40.7128, -74.0060];
+  const [mapCenter, setMapCenter] = useState(initialMapCenter);
 
   return (
     <div>
-      <Map center={initialMapCenter} zoom={2}>
+      <Map center={mapCenter} zoom={2} style={{ height: '500px' }}>
         <HeatmapLayer
           maxZoom={10} // Limit the heatmap intensity at higher zoom levels
           opacity={0.8} // Set the heatmap opacity (adjust as needed)
-          radius={20} 
+          radius={20}
           fitBoundsOnLoad
           fitBoundsOnUpdate
           points={addressPoints}
-          longitudeExtractor={m => m[1]}
-          latitudeExtractor={m => m[0]}
-          intensityExtractor={m => parseFloat(m[2])}
+          longitudeExtractor={(m) => m[1]}
+          latitudeExtractor={(m) => m[0]}
+          intensityExtractor={(m) => parseFloat(m[2])}
         />
         <TileLayer
           url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
@@ -59,3 +50,4 @@ const MapExample = () => {
 };
 
 export default MapExample;
+
