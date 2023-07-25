@@ -1,6 +1,7 @@
 import  { useEffect, useState } from 'react';
 import { MapContainer as Map, TileLayer } from 'react-leaflet';
 import HeatmapLayer from './HeatmapLayer';
+import { map } from 'leaflet';
 
 const addressPoints = [
     [40.7128, -74.0060, 0.6], // New York City, NY, USA
@@ -22,20 +23,25 @@ const addressPoints = [
 
 const MapExample = () => {
   const [mapCenter, setMapCenter] = useState([0, 0]);
-
+  const initialMapCenter = [40.7128, -74.0060];
   useEffect(() => {
     // Generate random latitude and longitude
     const randomLatitude = (Math.random() * 180) - 90;
     const randomLongitude = (Math.random() * 360) - 180;
-
+  
     // Update the map center with the random latitude and longitude
     setMapCenter([randomLatitude, randomLongitude]);
-  }, []); // Empty dependency array to run the effect only once on mount
+  }, []);
+
+  console.log(mapCenter)
 
   return (
     <div>
-      <Map center={mapCenter} zoom={2}>
+      <Map center={initialMapCenter} zoom={2}>
         <HeatmapLayer
+          maxZoom={10} // Limit the heatmap intensity at higher zoom levels
+          opacity={0.8} // Set the heatmap opacity (adjust as needed)
+          radius={20} 
           fitBoundsOnLoad
           fitBoundsOnUpdate
           points={addressPoints}
